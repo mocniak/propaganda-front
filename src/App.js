@@ -15,11 +15,11 @@ class App extends React.Component {
         this.updateTitle = this.updateTitle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddField = this.handleAddField.bind(this);
+        this.deleteContent = this.deleteContent.bind(this);
     }
 
     componentDidMount() {
         fetch('http://localhost:8000/admin/edit-article/c3079f45-f1b4-4104-ac38-48a897d84e8c')
-            .then(console.log('fetched'))
             .then(response => response.json())
             .then(
                 (data) => {
@@ -47,10 +47,24 @@ class App extends React.Component {
     updateContent(e) {
         let content = this.state.content;
         let index = content.findIndex((item) => {
-            console.log(item.id);
             return e.target.id === item.id
         });
+        console.log(index);
+
         content[index].value = e.target.value;
+        this.setState({
+            content: content
+        });
+        this.forceUpdate();
+    }
+
+    deleteContent(e) {
+        let content = this.state.content;
+        let index = content.findIndex((item) => {
+            return e.target.id === item.id
+        });
+        console.log(index);
+        content.splice(index, 1);
         this.setState({
             content: content
         });
@@ -68,7 +82,6 @@ class App extends React.Component {
             title: this.state.title,
             content: this.state.content
         });
-        console.log(body);
         fetch('http://localhost:8000/admin/submit-edit-article/c3079f45-f1b4-4104-ac38-48a897d84e8c', {
             method: 'POST',
             headers: {
@@ -122,6 +135,7 @@ class App extends React.Component {
                                         onChange={this.updateContent}
                                     />
                                 </label>
+                                <p><span id={item.id} onClick={this.deleteContent}>[delete]</span></p>
                                 <hr/>
                             </div>
                         )}
