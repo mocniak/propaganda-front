@@ -5,8 +5,7 @@ import React from 'react';
 class App extends React.Component {
     constructor() {
         super();
-        let url = new URL(window.location.href);
-        let articleId = url.searchParams.get("articleId");
+        let articleId = document.getElementById("articleId").innerHTML;
         this.state = {
             articleId: articleId,
             error: null,
