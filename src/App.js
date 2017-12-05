@@ -19,6 +19,7 @@ class App extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddField = this.handleAddField.bind(this);
         this.deleteContent = this.deleteContent.bind(this);
+        this.findContentIndex = this.findContentIndex.bind(this);
     }
 
     componentDidMount() {
@@ -52,8 +53,6 @@ class App extends React.Component {
         let index = content.findIndex((item) => {
             return e.target.id === item.id
         });
-        console.log(index);
-
         content[index].value = e.target.value;
         this.setState({
             content: content
@@ -66,7 +65,6 @@ class App extends React.Component {
         let index = content.findIndex((item) => {
             return e.target.id === item.id
         });
-        console.log(index);
         content.splice(index, 1);
         this.setState({
             content: content
@@ -96,16 +94,22 @@ class App extends React.Component {
         event.preventDefault();
     }
 
-    handleAddField(type) {
+    handleAddField(type, index) {
         let content = this.state.content;
         let newField = {
             id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5),
             type: type,
             value: ''
         };
-        content.push(newField);
+        content.splice(index, 0, newField);
         this.setState({
             content: content
+        });
+    }
+
+    findContentIndex(id) {
+        return this.state.content.findIndex((item) => {
+            return id === item.id
         });
     }
 
@@ -130,6 +134,8 @@ class App extends React.Component {
                         <hr/>
                         {content.map(item =>
                             <div key={item.id}>
+                                <AddContentField addField={this.handleAddField} index={this.findContentIndex(item.id)}/>
+                                <hr/>
                                 <label>{item.type}
                                     <br/>
                                     <input
@@ -143,7 +149,7 @@ class App extends React.Component {
                             </div>
                         )}
                     </div>
-                    <AddContentField addField={this.handleAddField}/>
+                    <AddContentField addField={this.handleAddField} index={this.state.content.length}/>
                     <hr/>
                     <input type="submit" value="Submit"/>
                 </form>
@@ -165,7 +171,7 @@ class AddContentField extends React.Component {
     }
 
     handleSubmit(event) {
-        this.props.addField(this.state.value);
+        this.props.addField(this.state.value, this.props.index);
         event.preventDefault();
     }
 
