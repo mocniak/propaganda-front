@@ -22,7 +22,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/admin/get-article-data/' + this.state.articleId)
+        fetch('/admin/get-article-data/' + this.state.articleId)
             .then(response => response.json())
             .then(
                 (data) => {
@@ -82,7 +82,7 @@ class App extends React.Component {
             title: this.state.title,
             content: this.state.content
         });
-        fetch('http://localhost:8000/admin/submit-edit-article/' + this.state.articleId, {
+        fetch('/admin/submit-edit-article/' + this.state.articleId, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
