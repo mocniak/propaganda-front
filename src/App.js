@@ -23,7 +23,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/admin/edit-article/' + this.state.articleId)
+        fetch('http://localhost:8000/admin/get-article-data/' + this.state.articleId)
             .then(response => response.json())
             .then(
                 (data) => {
