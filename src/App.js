@@ -7,14 +7,15 @@ class App extends React.Component {
         super();
         let articleId = document.getElementById("articleId").innerHTML;
         this.state = {
-            articleId: articleId,
+            articleId: '864f0681-e60c-49d4-bfe6-86c689f207ca',
             error: null,
             isLoading: true,
             title: '',
+            coverImage: '',
             content: [],
         };
         this.updateContent = this.updateContent.bind(this);
-        this.updateTitle = this.updateTitle.bind(this);
+        this.updateField = this.updateField.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddField = this.handleAddField.bind(this);
         this.deleteContent = this.deleteContent.bind(this);
@@ -22,7 +23,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/admin/get-article-data/' + this.state.articleId)
+        fetch('http://127.0.0.1:8000/admin/get-article-data/' + this.state.articleId)
             .then(response => response.json())
             .then(
                 (data) => {
@@ -35,6 +36,7 @@ class App extends React.Component {
                             }
                         }),
                         title: data.title,
+                        coverImage: data.coverImage,
                         isLoading: false
                     });
                 },
@@ -71,18 +73,19 @@ class App extends React.Component {
         this.forceUpdate();
     }
 
-    updateTitle(e) {
+    updateField(e) {
         this.setState({
-            title: e.target.value
+            [e.target.id]: e.target.value
         })
     }
 
     handleSubmit(event) {
         let body = JSON.stringify({
             title: this.state.title,
-            content: this.state.content
+            content: this.state.content,
+            coverImage: this.state.coverImage
         });
-        fetch('/admin/submit-edit-article/' + this.state.articleId, {
+        fetch('http://127.0.0.1:8000/admin/submit-edit-article/' + this.state.articleId, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -125,9 +128,20 @@ class App extends React.Component {
                         <label>Title
                             <br/>
                             <input
-                                ref="title"
+                                id='title'
+                                ref='title'
                                 value={this.state.title}
-                                onChange={this.updateTitle}
+                                onChange={this.updateField}
+                            />
+                        </label>
+                        <hr/>
+                        <label>Cover Image
+                            <br/>
+                            <input
+                                id='coverImage'
+                                ref="coverImage"
+                                value={this.state.coverImage}
+                                onChange={this.updateField}
                             />
                         </label>
                         <hr/>
