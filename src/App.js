@@ -7,7 +7,7 @@ class App extends React.Component {
         super();
         let articleId = document.getElementById("articleId").innerHTML;
         this.state = {
-            articleId: '864f0681-e60c-49d4-bfe6-86c689f207ca',
+            articleId: articleId,
             error: null,
             isLoading: true,
             title: '',
@@ -23,7 +23,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/admin/get-article-data/' + this.state.articleId)
+        fetch('/admin/get-article-data/' + this.state.articleId)
             .then(response => response.json())
             .then(
                 (data) => {
@@ -85,7 +85,7 @@ class App extends React.Component {
             content: this.state.content,
             coverImage: this.state.coverImage
         });
-        fetch('http://127.0.0.1:8000/admin/submit-edit-article/' + this.state.articleId, {
+        fetch('/admin/submit-edit-article/' + this.state.articleId, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
