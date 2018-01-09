@@ -191,13 +191,13 @@ class AddContentField extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="add-content-widget">
         <select value={this.state.value} onChange={this.handleChange} name="newContent">
           <option value="text">Text</option>
           <option value="image">Image</option>
           <option value="video">Video</option>
         </select>
-        <p onClick={this.handleSubmit}>Add content</p>
+        <div className="add-content-button" onClick={this.handleSubmit}>Add content</div>
       </div>
     )
   }
