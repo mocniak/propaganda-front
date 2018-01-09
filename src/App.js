@@ -49,12 +49,12 @@ class App extends React.Component {
             )
     }
 
-    updateContent(e) {
+    updateContent(id, value) {
         let content = this.state.content;
         let index = content.findIndex((item) => {
-            return e.target.id === item.id
+            return id === item.id
         });
-        content[index].value = e.target.value;
+        content[index].value = value;
         this.setState({
             content: content
         });
@@ -149,15 +149,16 @@ class App extends React.Component {
                             <div key={item.id}>
                                 <AddContentField addField={this.handleAddField} index={this.findContentIndex(item.id)}/>
                                 <hr/>
-                                <label>{item.type}
+                                <label className={item.type}>{item.type} | <span id={item.id}
+                                                                                 onClick={this.deleteContent}>[delete]</span>
                                     <br/>
-                                    <input
+                                    <Input
                                         id={item.id}
-                                        defaultValue={item.value}
-                                        onChange={this.updateContent}
+                                        value={item.value}
+                                        type={item.type}
+                                        updateCallback={this.updateContent}
                                     />
                                 </label>
-                                <p><span id={item.id} onClick={this.deleteContent}>[delete]</span></p>
                                 <hr/>
                             </div>
                         )}
@@ -198,6 +199,34 @@ class AddContentField extends React.Component {
                 </select>
                 <p onClick={this.handleSubmit}>Add content</p>
             </div>
+        )
+    }
+}
+
+class Input extends React.Component {
+    constructor(props) {
+        super(props);
+        this.update = this.update.bind(this);
+    }
+
+    update(e) {
+        this.props.updateCallback(this.props.id, e.target.value)
+    }
+
+    render() {
+        if (this.props.type === 'text') return (
+            <textarea
+                id={this.props.id}
+                defaultValue={this.props.value}
+                onChange={this.update}
+            />
+        );
+        return (
+            <input
+                id={this.props.id}
+                defaultValue={this.props.value}
+                onChange={this.update}
+            />
         )
     }
 }
