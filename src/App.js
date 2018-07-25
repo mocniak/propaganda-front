@@ -12,6 +12,8 @@ class App extends React.Component {
       isLoading: true,
       title: '',
       coverImage: '',
+      author: '',
+      slug: '',
       content: [],
     };
     this.updateContent = this.updateContent.bind(this);
@@ -36,6 +38,8 @@ class App extends React.Component {
               }
             }),
             title: data.title,
+            author: data.author,
+            slug: data.slug,
             coverImage: data.coverImage,
             isLoading: false
           });
@@ -82,6 +86,8 @@ class App extends React.Component {
   handleSubmit(event) {
     let body = JSON.stringify({
       title: this.state.title,
+      author: this.state.author,
+      slug: this.state.slug,
       content: this.state.content,
       coverImage: this.state.coverImage
     });
@@ -133,6 +139,24 @@ class App extends React.Component {
                 value={this.state.title}
                 onChange={this.updateField}
               />
+            </label>
+            <label>Author
+                <br/>
+                <input
+                    id='author'
+                    ref='author'
+                    value={this.state.author}
+                    onChange={this.updateField}
+                />
+            </label>
+            <label>Slug
+                <br/>
+                <input
+                    id='slug'
+                    ref='slug'
+                    value={this.state.slug}
+                    onChange={this.updateField}
+                />
             </label>
             <hr/>
             <label>Cover Image
