@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/admin/get-article-data/' + this.state.articleId)
+    fetch('/api/get-article-data/' + this.state.articleId)
       .then(response => response.json())
       .then(
         (data) => {
@@ -91,7 +91,7 @@ class App extends React.Component {
       content: this.state.content,
       coverImage: this.state.coverImage
     });
-    fetch('/admin/submit-edit-article/' + this.state.articleId, {
+    fetch('/api/submit-edit-article/' + this.state.articleId, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
